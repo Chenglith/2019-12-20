@@ -4,3 +4,29 @@ No.1 Combination(组合) 简单难度 17题
 输入："23"
 输出：["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 
+思路：将每个数字映射成三个字母然后做组合。
+不足：代码过长，不简洁，复杂度高
+相关知识：如何将字母变为数字。（回想一下怎么变得，虽然和这道题没有关系）
+
+果然可以用dfs bfs做，但我更习惯用这个
+
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        reflection = {'2':'abc',
+                      '3':'def',
+                      '4':'ghi',
+                      '5':'jkl',
+                      '6':'mno',
+                      '7':'pqrs',
+                      '8':'tuv',
+                      '9':'wxyz'}
+        if not digits:
+            return []                          ----------注意所有的都需要检查是否为空
+        n = len(digits)                        -----------本句可删除
+        aws = ['']
+        for num in range(n):                   ----------for num in digits
+            aws = [x + y for x in aws for y in reflection[digits[num]]]        ----------------reflection[num]
+        return aws
+        
+总结： 这种方法最关键的地方就是
+
