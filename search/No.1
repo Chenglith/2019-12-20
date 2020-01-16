@@ -28,5 +28,7 @@ class Solution:
             aws = [x + y for x in aws for y in reflection[digits[num]]]        ----------------reflection[num]
         return aws
         
-总结： 这种方法最关键的地方就是
+总结： 这种方法最关键的地方就是递归，知道字典的用法
+注意：字典一个key之能对应一个value，要是想多调用的化要引入列表或者新的字典
+所以{1：abc} 的意义是1对应abc三个而不是字符串。
 
