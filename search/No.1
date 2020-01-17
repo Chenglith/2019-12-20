@@ -62,7 +62,7 @@ class Solution:
         
  总结： 这道题目是典型的回溯法，虽然我的code没有按照回溯法写，但是实际上是这样的。
  回溯法按照条件剪枝。
- 回溯模板：
+ 回溯模板：：保存当前步骤，如果是一个解就输出；维护状态，使搜索路径（含子路径）尽量不重复。必要时，应该对不可能为解的部分进行剪枝(pruning)
  class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         candidates.sort()
