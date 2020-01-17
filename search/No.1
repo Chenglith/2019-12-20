@@ -35,3 +35,27 @@ class Solution:
 相似题目：
 三十九题
 （虽然没看出来回溯和这道题目的相似性，但可能bfsdfs相似的把）
+三十九题： 无重复数组和为target值的列表
+例如：
+输入: candidates = [2,3,6,7], target = 7,
+所求解集为:
+[
+  [7],
+  [2,2,3]
+]
+求解 ： 一开始不能想遍历数组相加等于目标，这样得不到结果，思路应该是从减法入手，7-{数组中的每一个数}
+要是0就输出所有结果，不然重复直到最后结果为0.
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        result = []
+        if target == []:
+            result = [[]]
+        for i, j in enumerate(candidates):
+            if j ==target:
+                result.append([j])
+            elif j< target:
+                p_result = self.combinationSum(candidates[i:],target- j)
+                for p in p_result:
+                    p.append(j)
+                    result.append(p)
+        return result
