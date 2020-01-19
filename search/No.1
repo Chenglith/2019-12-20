@@ -187,3 +187,43 @@ class Solution:
                     if pi not in result:
                         result.append(pi)
         return result
+本类型最后一道，是关于多个数组合的，找出所有相加之和为 n 的 k 个数的组合。组合中只允许含有 1 - 9 的正整数，并且每种组合中不存在重复的数字。
+这道题我的程序依旧超时， 
+def combinationSum3(k, n):
+        result = []
+        if k>n or k<1 or n<1:
+            return [[]]
+        def pick(k, n , nums):
+            for i, j in enumerate(nums):
+                if k == 1 and j == n:
+                    result.append([j])
+                elif j<n and k>1:
+                    p = pick(k-1, n-j, nums[i+1:])
+                    for pi in p:
+                        pi.append(j)
+                        result.append(pi)
+            return result
+        return pick(k,n, list(range(1, 10)))
+我没发现问题所在。
+答案是这样的
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        res = []
+        def helper(k, start, n, tmp):
+            if k == 0:
+                if n == 0:
+                    res.append(tmp)
+                return 
+            for i in range(start, 10):
+                if n - i < 0 :break
+                helper(k - 1, i + 1, n - i, tmp + [i])
+        helper(k, 1, n, [])
+        return res
+非常简便，还是记住这个模板吧
+
+
+总结： 组合求和问题应该是最简单的一类题目的。这类题目有两个类型：
+第一个是给你一个列表一个数，让你求满足一些条件的组合，
+第二种是给你两个数，让你找满足条件的组合，
+第一类题目很好解决，就用p = self.主函数() 这么来做，for pi in p : pi.append(j) result. append(pi)这么做，
+第二类题目不行，我用这样的方法都超时，所以还是背下来他们的题目就好了。就很方便的可以得到我们想要的结果。
