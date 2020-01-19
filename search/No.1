@@ -145,3 +145,45 @@ class Solution:
                 backtrack(j+1, k-1, tmp + [j])
         backtrack(1, k, [])
         return res
+
+
+78题：求一个集合的子集：
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        result = [[]] ================================================最容易弄错的地方
+        if nums == [[]]:
+            return [[]]
+        k = len(nums)
+        for i,j in enumerate(nums):
+            if k == 1:
+                result.append([j])
+            elif k>1 :
+                p = self.subsets(nums[i+1:])
+                for pi in p:
+                    pi.append(j)
+                    result.append(pi)
+        return result
+ 最熟悉的方法，唯一有错的地方是有空集，要在输入处输入，不能在结尾处append，不然会报错。
+ 
+ 
+ 第90题：子集二：
+ 仍然是求子集，但是有重复的元素，
+ 很简单，但是时间有点长，执行时间有点长，等有时间学学人家快速解法。
+ class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        result = [[]]
+        if nums == [[]]:
+            return [[]]
+        k = len(nums)
+        for i,j in enumerate(nums):
+            if k == 1:
+                if [j] not in result:
+                    result.append([j])
+            elif k>1 :
+                p = self.subsetsWithDup(nums[i+1:]) =========================别忘了加self.！
+                for pi in p:
+                    pi.append(j)
+                    pi.sort()
+                    if pi not in result:
+                        result.append(pi)
+        return result
