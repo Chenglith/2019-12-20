@@ -80,3 +80,30 @@ class Solution:
         return res
         
  个人比较喜欢bfs的版本，比较好理解，dfs的版本因为tmp_sum取值是什么不太清楚所以没太理解。
+ ================================
+ 
+ 四十题：这道题和上一道题一样，唯一不同的是，这个题目用的数不能重复，所以代码和上一道题差不多，唯一不用要判断数不能重复利用，结果也不能重复。
+ 这道题用bfs踩了几个坑，
+ 先贴代码：
+ class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        result= []
+        if target == []:
+            return [[]]
+        for i,j in enumerate(candidates):
+            if j ==target and [j] not in result:
+                result.append([j])
+            elif j<target:
+                p_result = self.combinationSum2(candidates[i+1:], target-j)
+                for p in p_result:
+                    p.append(j)
+                    p.sort()
+                    if p not in result:
+                        result.append(p)
+        return result
+第一个坑：结果表达不对，原因在append，pappendj 和result appen p 上不要画蛇添足，直接append就好，不需要【j】或者【p】。
+第二个，结果有重复，所以我加了这一句 ：if p not in result:  result.append(p)
+但发现还是不对，【1，1】，1 这个例子不通过，于是我又用了and j not in result: 
+但是发现还不对， 后来想到结果是列表，j是元素，所以and [j] not in result:就对了。
+但是时间成本很高，所以我觉得这种方便不太好，但是好理解。
+切记你没用减枝那种方法就不要sort了好吗！！！
