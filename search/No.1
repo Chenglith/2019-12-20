@@ -130,3 +130,18 @@ class Solution:
 这里面值得借鉴的就是continue的用法，continue就是返回条件语句如果条件为真，为假不返回。
 if k =4 continue 【1，2，3，4】的结果就是【1】【2】【3】。这个道理
 所以这道题用continue来筛选出来相同的值不要，注意我们所有的例子都用了sort排序，而我们自己的bfs没有排序，用的是直接选然后去重的步骤。
+
+77题组合：将一到n的数做k个组合
+这道题我用之前经常用的那个方法会超时，（就是设一个列表然后调用，参考39 40 题）
+人家的答案就还不错：
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        res = []
+        def backtrack(i, k, tmp):
+            if k == 0:
+                res.append(tmp)
+                return 
+            for j in range(i, n + 1):
+                backtrack(j+1, k-1, tmp + [j])
+        backtrack(1, k, [])
+        return res
