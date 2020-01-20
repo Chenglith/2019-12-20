@@ -1,1 +1,27 @@
+也是一种经典的backtrack回溯法的问题。
+46题： 、对一个列表进行全排列：
+代码：
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        result = []
+        def dfs(nums, tmp):
+            if not nums:
+                result.append(tmp)
+                return
+            for i in range(len(nums)):
+                dfs(nums[:i]+nums[i+1:], tmp+[nums[i]])
+        dfs(nums,[])
+        return result
+回溯问题的框架：
 
+
+result = []
+def backtrack(路径, 选择列表):
+    if 满足结束条件:
+        result.add(路径)
+        return
+    
+    for 选择 in 选择列表:
+        做选择
+        backtrack(路径, 选择列表)
+        撤销选择
