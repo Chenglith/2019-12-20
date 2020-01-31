@@ -1,0 +1,74 @@
+s生成括号类似的问题。
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        result = []
+        tmp = ''
+        def dfs(le, ri, tmp):
+            if le >= ri:
+                if le == n and ri == n:
+                    result.append(tmp)
+                if le < n:
+                    dfs(le+1,ri,tmp +'(')
+                if ri < n:
+                    dfs(le, ri+1, tmp + ')')
+        dfs(0,0,tmp)
+        return result
+这是我的代码，主要思路就是我们应该关注怎么更新这样的dfs 的问题，
+一开始我想到的是回溯法，定义一个函数，然后在写for循环，但是这道题的for 循环很难写，所以我觉得这道题目的意思是我们应该做的是在一个函数内更新，
+主要是后面两个if 的写法能不能想到。
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+
+        res = []
+        cur_str = ''
+
+        def dfs(cur_str, left, right, n):
+            """
+            :param cur_str: 从根结点到叶子结点的路径字符串
+            :param left: 左括号已经使用的个数
+            :param right: 右括号已经使用的个数
+            :return:
+            """
+            if left == n and right == n:
+                res.append(cur_str)
+                return
+            if left < right:
+                return
+
+            if left < n:
+                dfs(cur_str + '(', left + 1, right, n)
+
+            if right < n:
+                dfs(cur_str + ')', left, right + 1, n)
+
+        dfs(cur_str, 0, 0, n)
+        return res
+答案是这样的，速度比我快一点，因为我嵌套了一个for 循环，这是小问题，速度可能慢一点，不过大体思路就是这样的，这是一道典型的for 循环的题目。
+
+301 题目 删除无效的括号
+这道题要分为三部，第一步是检查所在字符串是否合法，
+第二部确定要删除的左括号和右括号的个数
+第三步根据dfs递归出来是否合法
+
+class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        def isvalid(string): 
+            l_minus_r = 0
+            for c in string:
+                if c == '(':
+                    l_minus_r += 1
+                elif c == ')':
+                    l_minus_r -= 1
+                    if l_minus_r < 0:
+                        return False
+            return l_minus_r == 0
+
+        level = {s}
+        while True:  # BFS
+            valid = list(filter(isvalid, level))
+            if valid:
+                return valid
+            level = {s[:i] + s[i + 1:] for s in level for i in range(len(s)) if s[i] in '()'}
+判断合法
+判断子序列是否合法
+更新子序列
