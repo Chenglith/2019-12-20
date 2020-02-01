@@ -1,0 +1,73 @@
+37 题数独问题
+就像人的正常思路一样，
+1.确定哪些位置需要填充
+2.检查是否合法
+3，回溯
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        # 把所有没填数字的位置找到
+        all_points = []
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == ".":
+                    all_points.append([i, j])
+        # check函数是为了检查是否在point位置k是合适的
+        def check(point, k):
+            row_i = point[0]
+            col_j = point[1]
+            for i in  range(9):
+                # 检查 行
+                if i != row_i and board[i][col_j] == k:
+                    return False
+                # 检查 列
+                if i != col_j and board[row_i][i] == k:
+                    return False
+            # 检查块
+            for i in range(row_i//3*3 , row_i//3*3+3):
+                for j in range(col_j//3*3, col_j//3*3+3):
+                    if i != row_i and j != col_j and board[i][j] == k:
+                        return False
+            
+            return True
+        
+        def backtrack(i):
+            # 回溯终止条件
+            if i == len(all_points):
+                return True
+            for j in range(1, 10):
+                # 检查是否合适
+                if check(all_points[i],str(j)):
+                    # 合适就把位置改过来
+                    board[all_points[i][0]][all_points[i][1]] = str(j)
+                    if backtrack(i+1): # 回溯下一个点
+                        return True
+                    board[all_points[i][0]][all_points[i][1]] = "."# 不成功把原来改回来
+        
+        backtrack(0)
+
+
+return false true有的可以去掉
+
+51 n皇后
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        res = []
+        s = "." * n
+        def backtrack(i, tmp,col,z_diagonal,f_diagonal):
+            if i == n:
+                res.append(tmp)
+                return 
+            for j in range(n):
+                if j not in col and i + j not in  z_diagonal and i - j not in f_diagonal:
+                    backtrack(i+1,tmp + [s[:j] + "Q" + s[j+1:]], col | {j}, z_diagonal |{i + j} , f_diagonal |{i - j}  ) 
+            
+        backtrack(0,[],set(),set(),set())    
+        return res
+相同的方法，主要解法和上面一样，关键问题是如何
+回溯法
+关键是这样问题的定义，
+比如“。”*n
+比如set（）竖线 j表示集合的并集
