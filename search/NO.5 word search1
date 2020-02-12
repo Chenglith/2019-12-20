@@ -1,0 +1,41 @@
+第79题：
+给定一个board（list【list【str】），和一个单词，在这个board中是否能找到相邻的字母组成这个单词（相邻且不能重复）
+
+我做题的时候只注意到不能重复忘记了相邻，所以做出来不对，
+基本思路是：
+
+def search()：
+if out of bound（x，y） return false
+board【x][y]！= point return false
+if k== len（word） return ture
+return search（x+-1， y+-1）
+
+for i in range():
+   for j in range():
+      if search(i, j, d)
+         return ture
+      return false
+关键在于如何定义search
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        row = len(board)
+        col = len(board[0])
+
+        def helper(i, j, k, visited):
+            if k == len(word):
+                return True
+            for x, y in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                tmp_i = x + i
+                tmp_j = y + j
+                if 0 <= tmp_i < row and 0 <= tmp_j < col and (tmp_i, tmp_j) not in visited and board[tmp_i][tmp_j] == word[k]:
+                    visited.add((tmp_i, tmp_j))
+                    if helper(tmp_i, tmp_j, k+1, visited):
+                        return True
+                    visited.remove((tmp_i, tmp_j)) # 回溯
+            return False
+        
+        for i in range(row):
+            for j in range(col):
+                if board[i][j] == word[0] and helper(i, j, 1,{(i, j)}) :
+                        return True
+        return False
